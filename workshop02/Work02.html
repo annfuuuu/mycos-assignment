@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi-Lo game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;  
+            justify-content: center;  
+            min-height: 100vh;  
+            background-color: #f7fafc;
+        }
+
+        .container {
+            background-color: white;
+            padding: 24px;
+            border-radius: 12px;
+            width: 320px; 
+            box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 
+                0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .h2 {
+            display: block;  
+            font-size: 14px;    
+            font-weight: bold;     
+            color: #353034; 
+        }
+
+        .h1 {
+            width: 100%;         
+            padding-left: 0.75rem;  
+            padding-right: 0.1rem; 
+            padding-top: 0.5rem;   
+            padding-bottom: 0.5rem; 
+            border: 1px solid #ccc; 
+            border-radius: 0.375rem;
+            margin-top: 0.25rem; 
+        }
+        .button-style {
+            margin-top: 1rem; /* mt-4 */
+            width: 100%; /* w-full */
+            background-color: #3b82f6; /* bg-blue-500 */
+            color: white; /* text-white */
+            padding: 0.5rem; /* py-2 */
+            border-radius: 0.375rem; /* rounded */
+            transition: background-color 0.3s ease;
+        }
+        .bet-section {
+            margin-bottom: 20px;
+    }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;     
+            color: #df2a12; 
+    }
+        .dice {
+            font-size: 10x;
+            margin: 10px;
+    }
+        
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="text-lg font-bold mb-4 text-center">Welcome to Hi-Lo game!!!</h2>
+        
+        <div class="bet-section">
+        <label class="h2">Enter your bet amount:</label>
+        <input class="h1" type="number" id="betAmount" min="1"  placeholder="Bet Amount">
+        <br><br>
+        
+            <label for="betType">Player can bet in 3 ways</label>
+                <select id="betType">
+                    <option value="high">High (>= 12)</option>
+                    <option value="mid">Mid (== 11)</option>
+                    <option value="low">Low (<= 10)</option>
+                </select>
+                  <br><br>
+                  <button class="button-style" onclick="rollDice()">Roll Dice</button>
+        </div>
+
+            <div class="result" id="result"></div>  
+
+            <div class="dice" id="diceResults"></div>   
+    </div>
+
+    
+  <script>
+    function rollDice() {
+      // Get bet details
+      const betAmount = parseInt(document.getElementById("betAmount").value);
+      const betType = document.getElementById("betType").value;
+
+      // Check if bet amount is entered
+      if (!betAmount || betAmount <= 0) {
+        alert("Please enter a valid bet amount.");
+        return;
+      }
+
+      // Roll the dice (3 dice rolls)
+      const dice1 = Math.floor(Math.random() * 6) + 1;
+      const dice2 = Math.floor(Math.random() * 6) + 1;
+      const dice3 = Math.floor(Math.random() * 6) + 1;
+
+      const diceSum = dice1 + dice2 + dice3;
+      
+      // Display dice results
+      document.getElementById("diceResults").innerHTML = 
+        `Dice 1: ${dice1} | Dice 2: ${dice2} | Dice 3: ${dice3}`;
+      
+      // Determine win or lose
+      let resultText = "";
+      let winnings = 0;
+      
+      if (betType === "high" && diceSum >= 12) {
+        resultText = "You won! Your sum is high.";
+        winnings = betAmount * 2; // Standard reward for high
+      } else if (betType === "mid" && diceSum === 11) {
+        resultText = "You won! Your sum is exactly 11.";
+        winnings = betAmount * 5; // 5 times reward for mid
+      } else if (betType === "low" && diceSum <= 10) {
+        resultText = "You won! Your sum is low.";
+        winnings = betAmount * 2; // Standard reward for low
+      } else {
+        resultText = "You lost! Better luck next time.";
+      }
+
+      // Display the result and winnings
+      if (winnings > 0) {
+        resultText += `<br>Your winnings: $${winnings}`;
+      }
+
+      document.getElementById("result").innerHTML = resultText;
+    }
+  </script>
+</body>
+</html>
